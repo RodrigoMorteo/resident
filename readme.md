@@ -164,10 +164,10 @@ The interface labels the current outputs as "diagnostic" where appropriate so th
 Users should carefully review the model assumptions and diagnostic outputs to ensure the chosen models are appropriate for their data and research questions.
 
 ## How to Cite
-If you use this software in your research, please cite it. We recommend citing both the software directly (using the Zenodo DOI) and any associated publications.
+If you use this software in your research, please cite both the software and the associated publication:
 
+* **Publication**: Morteo E., Rocha-Olivares A., Morteo R. 2012. Sensitivity analysis of residency and site fidelity estimations to variations in sampling effort and individual catchability. *Revista Mexicana de Biodiversidad* 83(2):487-495.
 * **Software**: [Placeholder for Zenodo DOI badge]
-* **Publication**: [Placeholder for publication citation once available]
 
 ## License
 This project is licensed under the MIT License.
