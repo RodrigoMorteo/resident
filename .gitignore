@@ -1,0 +1,43 @@
+# R / RStudio
+.RData
+.Rhistory
+.Rapp.history
+.Rproj.user/
+*.Rproj
+*.RDataTmp
+*.Ruserdata
+*.rds
+*.rda
+*.Rdx
+*.Rdm
+*.Rcheck/
+
+# Compiled objects / shared libraries
+*.o
+*.so
+*.dll
+*.dylib
+*.a
+*.lib
+*.exe
+
+# User-specific project files
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+
+# Generated output folders used during analysis runs
+outputs/
+Outputs/test_v0.9.41/
+Outputs/test_v0.9.41/**
+
+# Keep source files in Outputs tracked; ignore only generated artifacts
+# Do not ignore the core pipeline scripts themselves.
