@@ -2314,16 +2314,26 @@ function ()
 function (filename) 
 {
     root <- .resident_project_root()
+    base_no_ext <- sub("\\.[^.]+$", "", filename)
+    ext <- tools::file_ext(filename)
+    alt_filename <- if (ext != "") paste0(base_no_ext, "_v0.9.41.", ext) else filename
     candidates <- unique(c(
         filename,
+        alt_filename,
         file.path(root, filename),
+        file.path(root, alt_filename),
         file.path(root, "Outputs", filename),
+        file.path(root, "Outputs", alt_filename),
         file.path("outputs", filename),
+        file.path("outputs", alt_filename),
         file.path(getwd(), filename),
+        file.path(getwd(), alt_filename),
         file.path(getwd(), "outputs", filename),
         file.path(getwd(), "Outputs", filename),
+        file.path(getwd(), "Outputs", alt_filename),
         file.path(dirname(getwd()), "outputs", filename),
-        file.path(dirname(getwd()), "Outputs", filename)
+        file.path(dirname(getwd()), "Outputs", filename),
+        file.path(dirname(getwd()), "Outputs", alt_filename)
     ))
     hit <- candidates[file.exists(candidates)]
     if (!length(hit)) 
@@ -3105,7 +3115,7 @@ function (history, occasions = NULL, group = NULL, effort = NULL,
             "%Y-%m"), FUN = seq_along), date = dates, stringsAsFactors = FALSE)
 }
 .resident_v091_dependency_file <-
-"/Users/eduardomorteo/Documents/Codex/Resident/Outputs/resident_pipeline_v0.9.0.R"
+file.path(.resident_project_root(), "Outputs", "resident_pipeline_v0.9.0.R")
 .resident_v091_fit_jolly_seber_abundance <-
 function (history, occasions = NULL, maxit = 500, ...) 
 {
@@ -3273,8 +3283,8 @@ function (history, occasions = NULL, group = NULL, effort = NULL,
     }
     dd
 }
-.resident_v093_dependency_file <-
-"/Users/eduardomorteo/Documents/Codex/Resident/Outputs/resident_pipeline_v0.9.1.R"
+.resident_v092_dependency_file <-
+file.path(.resident_project_root(), "Outputs", "resident_pipeline_v0.9.1.R")
 .resident_v093_fit_abundance_model <-
 function (history, abundance_model = "closed_M0", occasions = NULL, 
     temporal_structure = NULL, input_provider = NULL, data_type = "empirical", 
@@ -3670,8 +3680,8 @@ function (analysis, selected, input_provider = NULL, ...)
         selected
     else model, ...)
 }
-.resident_v094_dependency_file <-
-"/Users/eduardomorteo/Documents/Codex/Resident/Outputs/resident_pipeline_v0.9.35.R"
+.resident_v0935_dependency_file <-
+file.path(.resident_project_root(), "Outputs", "resident_pipeline_v0.9.35.R")
 .resident_v094_loaded_at <-
 structure(1786657361.694659, class = c("POSIXct", "POSIXt"))
 .resident_v095_handle_post_simulation_menu_choice <-
@@ -17430,7 +17440,7 @@ function ()
     env <- Sys.getenv("RESIDENT_OUTPUT_DIR", unset = "")
     if (nzchar(env)) 
         return(env)
-    project_outputs <- "/Users/eduardomorteo/Documents/Codex/Resident/Outputs"
+    project_outputs <- file.path(.resident_project_root(), "Outputs")
     if (dir.exists(project_outputs)) 
         return(project_outputs)
     "Outputs"
@@ -18368,11 +18378,9 @@ resident_version_report <-
 function () 
 {
     data.frame(active_version = resident_active_version(), dependency_versions = paste(names(resident_dependency_version()), 
-        resident_dependency_version(), collapse = "; "), active_file = normalizePath(.resident_find_dependency("resident_pipeline_v0.9.36.R")), 
-        dependency_files = .resident_v094_dependency_file, TMB_file_version = if (file.exists(.resident_find_dependency("resident_tmb.cpp"))) 
-            readLines(.resident_find_dependency("resident_tmb.cpp"), 
-                n = 1, warn = FALSE)
-        else NA_character_, loaded_at = as.character(.resident_v094_loaded_at), 
+        resident_dependency_version(), collapse = "; "), active_file = normalizePath(.resident_find_dependency("resident_pipeline_v0.9.41.R")), 
+        dependency_files = "none", TMB_file_version = tryCatch(readLines(.resident_find_dependency("resident_tmb_v0.9.41.cpp"), 
+            n = 1, warn = FALSE), error = function(e) NA_character_), loaded_at = as.character(Sys.time()), 
         stringsAsFactors = FALSE)
 }
 resident_with_option11_plot_state <-
@@ -23010,11 +23018,11 @@ resident_active_version <- function() .resident_pipeline_version
 resident_version <- resident_active_version
 resident_dependency_version <- function() c(standalone = "none")
 resident_load_message <- function() paste("Resident Pipeline", resident_active_version(), "loaded as standalone.")
-resident_version_report <- function() { data.frame(active_version = resident_active_version(), dependency_versions = "standalone: none", active_file = normalizePath(.resident_find_dependency("resident_pipeline_v0.9.41.R")), dependency_files = "none", TMB_file_version = if (file.exists(.resident_find_dependency("resident_tmb.cpp"))) readLines(.resident_find_dependency("resident_tmb.cpp"), n = 1, warn = FALSE) else NA_character_, loaded_at = as.character(Sys.time()), stringsAsFactors = FALSE) }
+resident_version_report <- function() { data.frame(active_version = resident_active_version(), dependency_versions = "standalone: none", active_file = normalizePath(.resident_find_dependency("resident_pipeline_v0.9.41.R")), dependency_files = "none", TMB_file_version = tryCatch(readLines(.resident_find_dependency("resident_tmb_v0.9.41.cpp"), n = 1, warn = FALSE), error = function(e) tryCatch(readLines(.resident_find_dependency("resident_tmb.cpp"), n = 1, warn = FALSE), error = function(e2) NA_character_)), loaded_at = as.character(Sys.time()), stringsAsFactors = FALSE) }
 usage_guide_version_check <- function(path = "Outputs/resident_pipeline_usage_v0.9.41.md") resident_file_version_check(path)
 upgrade_report_version_check <- function(path = "Outputs/resident_pipeline_upgrade_report_v0.9.41.txt") resident_file_version_check(path)
 test_file_version_check <- function(path = file.path(.resident_ensure_repo_root(), "Outputs", "test_resident_pipeline_v0.9.41.R")) resident_file_version_check(path)
-validate_version_consistency <- function(version = resident_active_version()) { root <- .resident_ensure_repo_root(); files <- c(file.path(root, "Outputs", "resident_pipeline_v0.9.41.R"), file.path(root, "Outputs", "resident_tmb_v0.9.41.cpp"), file.path(root, "Outputs", "resident_tmb.cpp"), file.path(root, "Outputs", "test_resident_pipeline_v0.9.41.R"), file.path(root, "Outputs", "resident_pipeline_usage_v0.9.41.md")); data.frame(file = files, exists = file.exists(files), contains_active_version = vapply(files, resident_file_version_check, logical(1), version = version), stringsAsFactors = FALSE) }
+validate_version_consistency <- function(version = resident_active_version()) { root <- .resident_ensure_repo_root(); files <- c(file.path(root, "Outputs", "resident_pipeline_v0.9.41.R"), file.path(root, "Outputs", "resident_tmb_v0.9.41.cpp"), file.path(root, "Outputs", "test_resident_pipeline_v0.9.41.R"), file.path(root, "Outputs", "resident_pipeline_usage_v0.9.41.md")); data.frame(file = files, exists = file.exists(files), contains_active_version = vapply(files, resident_file_version_check, logical(1), version = version), stringsAsFactors = FALSE) }
 resident_pipeline_is_standalone <- function(path = .resident_find_dependency("resident_pipeline_v0.9.41.R")) { lines <- readLines(path, warn = FALSE); !any(grepl("source_resident_dependency\\s*\\(|source\\s*\\(.*resident_pipeline_v0\\.9\\.", lines)) }
 
 # v0.9.41 Option 7/8 residency-state workflow repair.

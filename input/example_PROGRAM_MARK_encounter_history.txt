@@ -1,0 +1,9 @@
+# Program MARK-style encounter history example
+# Required columns: id encounter_history frequency
+# Optional date line preserving real sampling dates:
+# dates: 2020-01-01 2020-01-07 2020-01-15 2020-01-22 2020-01-29 2020-02-05
+# encounter_history uses 1 = detected and 0 = not detected across sampling occasions
+id encounter_history frequency
+Dolphin_001 100100 1
+Dolphin_002 010000 1
+Dolphin_003 001011 1

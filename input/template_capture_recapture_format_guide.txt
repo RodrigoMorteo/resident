@@ -1,0 +1,18 @@
+Resident capture-recapture import format guide
+
+PROGRAM_MARK format:
+- One row per individual.
+- Required columns: id, encounter_history.
+- encounter_history must contain only 0 and 1 and all rows must have the same length.
+- Optional first date line starts with '# dates:' followed by one date per sampling occasion.
+
+SOCPROG format:
+- One row per sighting record.
+- Required columns: id, date.
+- Dates must use a format R can read, preferably YYYY-MM-DD.
+- Duplicate records for the same id and date are aggregated to detected = 1.
+
+Important interpretation:
+- 1 means detected.
+- 0 means not detected, not necessarily absent.
+- Resident will check the file before accepting it into the analysis.
